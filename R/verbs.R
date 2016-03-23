@@ -35,6 +35,14 @@ transmute_.chunkwise <- function(.data, ..., .dots){
 }
 
 #' @export
+summarise_.chunkwise <- function(.data, ..., .dots){
+  .data$.warn <- TRUE
+  .dots <- lazyeval::all_dots(.dots, ...)
+  cmd <- lazyeval::lazy(summarise_(.data, .dots=.dots))
+  record(.data, cmd)
+}
+
+#' @export
 do_.chunkwise <- function(.data, ..., .dots){
   .dots <- lazyeval::all_dots(.dots, ...)
   cmd <- lazyeval::lazy(do_(.data, .dots=.dots))
@@ -83,13 +91,24 @@ tbl_vars.chunkwise <- function(x){
 
 #' @export
 groups.chunkwise <- function(x){
-  NULL
+  if (is.null(x$.groups)){
+    x$.groups <- groups(collect(x, first_chunk_only=TRUE))
+  }
+  x$.groups
+}
+
+#' @export
+group_by_.chunkwise <- function(.data, ..., .dots, add=FALSE){
+  .data$.warn <- TRUE
+  .dots <- lazyeval::all_dots(.dots, ...)
+  cmd <- lazyeval::lazy(group_by_(.data, .dots=.dots, add=add))
+  record(.data, cmd)
 }
 
 #' @export
 collect.chunkwise <- function(x, first_chunk_only=FALSE, ...){
   cmds <- x$cmds
-  res <- x$first_chunk(cmds)
+  res <- x$first_chunk(cmds, x$.warn)
 
   if (isTRUE(first_chunk_only)){
     return(res)

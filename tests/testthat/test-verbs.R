@@ -37,6 +37,12 @@ describe("rename()",{
   })
 })
 
+describe("groups()",{
+  ir <- get_tbl_iris() %>% group_by(Species)
+  expect_warning(g <- groups(ir))
+  expect_equal(g, list(quote(Species)))
+})
+
 
 describe("transmute()", {
 
@@ -88,4 +94,20 @@ describe("anti_join",{
   expect_equal( anti_join(tbl_women, women_half, by="height") %>% as.data.frame() %>% arrange(height)
               , anti_join(women, women_half, by="height") %>% arrange(height)
   )
+})
+
+describe("summarise",{
+  expect_warning(
+    s <- summarise(tbl_women, h=mean(height), w = mean(weight), n=n()) %>% as.data.frame()
+  )
+  expect_equal(nrow(s), 3)
+  expect_equal(weighted.mean(s$h, s$n), mean(women$height))
+  expect_equal(weighted.mean(s$w, s$n), mean(women$weight))
+})
+
+describe("group_by",{
+  ir <- get_tbl_iris() %>% group_by(Species)
+  expect_warning(m <- ir %>% summarise(m = mean(Sepal.Width), n=n()) %>% as.data.frame())
+  s <- m %>% group_by(Species) %>% summarise(m = weighted.mean(m, n))
+  #expect_equivalent(s, iris %>% group_by(Species) %>%  summarise(m=mean(Sepal.Width)))
 })

@@ -1,12 +1,13 @@
 # chunked
 
 [![version](http://www.r-pkg.org/badges/version/chunked)](http://www.r-pkg.org/pkg/chunked)
+[![Downloads](http://cranlogs.r-pkg.org/badges/chunked)](http://www.r-pkg.org/pkg/chunked) 
 [![Travis-CI Build Status](https://travis-ci.org/edwindj/chunked.svg?branch=master)](https://travis-ci.org/edwindj/chunked)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/edwindj/chunked?branch=master)](https://ci.appveyor.com/project/edwindj/chunked)
 [![Coverage Status](https://coveralls.io/repos/edwindj/chunked/badge.svg?branch=master&service=github)](https://coveralls.io/github/edwindj/chunked?branch=master)
-R is a great tool, but processing large text files with data is cumbersome.
+R is a great tool, but processing data in large text files is cumbersome.
 `chunked` helps you to process large text files with _dplyr_ while loading only a part of the data in memory.
-It builds on the execellent R package [_LaF_](https://github.com/djvanderlaan/LaF).
+It builds on the excellent R package [_LaF_](https://github.com/djvanderlaan/LaF).
 
 Processing commands are written in dplyr syntax, and `chunked` (using `LaF`) will take care that chunk by chunk is
 processed, taking far less memory than otherwise. `chunked` is useful for __select__-ing columns, __mutate__-ing columns
@@ -15,14 +16,21 @@ data pre-processing.
 
 ## Install
 
-'chunked' is currently not available on CRAN. It can be installed with
+'chunked' can be installed with
+
+```r
+install.packages('chunked')
+```
+
+beta version with: 
+```r
+install.packages('chunked', repos=c('https://cran.rstudio.com', 'http://edwindj.github.io/drat'))
+```
+
+and the development version with:
 
 ```r
 devtools::install_github('edwindj/chunked')
-```
-or (more stable) 
-```r
-install.packages('chunked', repos=c('https://cran.rstudio.com', 'http://edwindj.github.io/drat'))
 ```
 
 
@@ -98,18 +106,19 @@ Syntax completion of variables of a chunkwise file in RStudio works like a charm
 - `semi_join`
 - `anti_join`
 
-Since data is processed in chunks, some dplyr verbs are not implemented, because their results may differ from
-processing on the whole data set.
-Not implemented:
 
-- `summarize`
-- `group_by`
+Since data is processed in chunks, some dplyr verbs are not implemented:
+
 - `arrange`
 - `right_join`
 - `full_join`
 
-_Note that using `do` it is possible to do grouping and summarization with `chunked`_, but you have 
-to be explicit in how to aggregate the results from the chunks:
+`summarize` and `group_by` are implemented but generate a warning: they operate on each chunk and
+__not__ on the whole data set. However this makes is more easy to process a large file, by repeatedly
+aggregating the resulting data.
+
+- `summarize`
+- `group_by`
 
 ```R
 tmp <- tempfile()
@@ -117,12 +126,11 @@ write.csv(iris, tmp, row.names=FALSE, quote=FALSE)
 iris_cw <- read_chunkwise(tmp, chunk_size = 30) # read in chunks of 30 rows for this example
 
 iris_cw %>% 
-  do( group_by(., Species) %>%           # group in each chunk
-        summarise( m = mean(Sepal.Width) # and summarize in each chunk
-                 , w = n()
-                 )
-    ) %>% 
-  as.data.frame %>%                      # since each Species has 50 records, results will be in multiple chunks
-  group_by(Species) %>%                  # group the results from the chunk
-  summarise(m = weighted.mean(m, w))     # and summarize it.
+  group_by(Species) %>%            # group in each chunk
+  summarise( m = mean(Sepal.Width) # and summarize in each chunk
+           , w = n()
+           ) %>% 
+  as.data.frame %>%                  # since each Species has 50 records, results will be in multiple chunks
+  group_by(Species) %>%              # group the results from the chunk
+  summarise(m = weighted.mean(m, w)) # and summarize it again
 ```

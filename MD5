@@ -1,4 +1,4 @@
-95910f437986af7c639ea8c0c1c5f886 *DESCRIPTION
+6f476fc0d894beec1409f12733e54e92 *DESCRIPTION
 102bb1ad24405821e66a7fbe982cd1b7 *NAMESPACE
 95695b0e85a7d4e210df5f4aebe2336e *NEWS.md
 7ec69cf7acd7feb722981808da15856a *R/chunkwise.R
@@ -9,7 +9,7 @@ dd146fc9da2086003114a4ac8cff7e84 *R/pkg.R
 b3912fe5fe7d75a21a099f8771d9eae1 *R/read.R
 00f0ca6248e45bdd95ba874227df1fbd *R/unsupported.R
 ec13b555d1d60466d00fcc99b36b7286 *R/verbs.R
-ad69202eecdd3f17a3834c87f09e72e3 *R/write.R
+86fa449d8ab65db13737d7935a995de7 *R/write.R
 6b8717f77c0e5893141f1235ee9772f0 *README.md
 6c169685a177bd7cf970833442221141 *man/chunked-package.Rd
 bf1e2b9557e796ebeae1ccbc0eec5689 *man/insert_chunkwise_into.Rd
@@ -20,7 +20,7 @@ f84b4b75d7d42aa80d862ec868799b15 *man/write_chunkwise.Rd
 36bc8590e22f4bfa5ce4dbe618357f6a *tests/testthat.R
 2a7c336a65186a706c5ea6e767fd95de *tests/testthat/test-head.R
 fb866cf9fb26fbb8ab72d8ff5c1bc103 *tests/testthat/test-insert-into.R
-2a578efe7d8f9d66712632cce52edc1e *tests/testthat/test-print.R
+0b9b37daaf35cb76704b78b90cd09ab0 *tests/testthat/test-print.R
 f1e8d5b711e9a93f3cd44f78c19c8820 *tests/testthat/test-read.R
 aee40866b21c450f2e81660c7b3a675b *tests/testthat/test-tbl-chunk.R
 1db18cf2ab0a5187ff0f0de91b0211f6 *tests/testthat/test-unsupported.R

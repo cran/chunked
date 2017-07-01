@@ -11,7 +11,7 @@ write_chunkwise(x, dest, ...)
   format = c("csv", "csv2", "table"), ...)
 }
 \arguments{
-\item{x}{chunked input, e.g. created with \code{read_chunkwise}}
+\item{x}{chunked input, e.g. created with \code{read_chunkwise} or it can be a \code{tbl_sql} object.}
 
 \item{dest}{where should the data be written. May be a character or
 a \code{src_sql}.}
@@ -28,4 +28,3 @@ if \code{x} is a character.}
 \description{
 Genereric function to write chunk by chunk
 }
-

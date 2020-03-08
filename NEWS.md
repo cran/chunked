@@ -1,3 +1,11 @@
+Version 0.4.1
+
+* Fix for change of default in stringsAsFactors for R 4.0
+
+* Implementation now uses `rlang` instead of `lazyeval`
+
+* Added `stringsAsFactors` as argument to `read_chunkwise` functions.
+
 Version 0.3.1
 
 * Fix for dplyr upgrade from 0.5 to 0.6

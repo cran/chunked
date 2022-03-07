@@ -9,7 +9,7 @@ insert_chunkwise_into(x, dest, table, temporary = FALSE, analyze = FALSE)
 \arguments{
 \item{x}{tbl_chunk object}
 
-\item{dest}{database destination, e.g. src_sqlite()}
+\item{dest}{database destination, e.g. src_dbi()}
 
 \item{table}{name of table}
 
